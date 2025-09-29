@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethan Akiyama - Portfolio</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        const { useState } = React;
+
+        const Portfolio = () => {
+          const [currentPage, setCurrentPage] = useState('home');
+          const [selectedProject, setSelectedProject] = useState(null);
+          const [menuOpen, setMenuOpen] = useState(false);
+
+          const projects = [
+            { id: 1, name: 'Project Name', description: 'Brief Description', image: 'https://images.unsplash.com/photo-1551650975-87deedd944c3?w=400&h=250&fit=crop' },
+            { id: 2, name: 'Project Name', description: 'Brief Description', image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=250&fit=crop' },
+            { id: 3, name: 'Project Name', description: 'Brief Description', image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&h=250&fit=crop' },
+          ];
+
+          const toggleMenu = () => setMenuOpen(!menuOpen);
+
+          const navigateTo = (page) => {
+            setCurrentPage(page);
+            setSelectedProject(null);
+            setMenuOpen(false);
+          };
+
+          const viewProject = (project) => {
+            setSelectedProject(project);
+            setCurrentPage('project-detail');
+            setMenuOpen(false);
+          };
+
+          const Navigation = () => (
+            <div className="space-y-2">
+              <button
+                onClick={() => navigateTo('home')}
+                className="w-full bg-gray-200 hover:bg-gray-300 text-black font-medium py-3 px-6 transition-colors rounded-lg"
+              >
+                Home
+              </button>
+              <button
+                onClick={() => navigateTo('projects')}
+                className="w-full bg-gray-200 hover:bg-gray-300 text-black font-medium py-3 px-6 transition-colors rounded-lg"
+              >
+                Projects
+              </button>
+              <button
+                onClick={() => navigateTo('resume')}
+                className="w-full bg-gray-200 hover:bg-gray-300 text-black font-medium py-3 px-6 transition-colors rounded-lg"
+              >
+                Resume
+              </button>
+            </div>
+          );
+
+          const HomePage = () => (
+            <div className="flex-1 flex flex-col bg-gray-300">
+              <div className="p-6 flex-1">
+                <div className="bg-gray-500 h-64 md:h-80 rounded-lg relative flex overflow-hidden">
+                  <img 
+                    src="snowboarding.jpg" 
+                    alt="Snowboarding" 
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                  <div className="p-6 flex flex-col space-y-3 w-48 relative z-10">
+                    <button
+                      onClick={() => navigateTo('projects')}
+                      className="w-full bg-gray-200 hover:bg-gray-100 text-black font-medium py-3 px-6 transition-colors rounded-lg"
+                    >
+                      Projects
+                    </button>
+                    <button
+                      onClick={() => navigateTo('resume')}
+                      className="w-full bg-gray-200 hover:bg-gray-100 text-black font-medium py-3 px-6 transition-colors rounded-lg"
+                    >
+                      Resume
+                    </button>
+                  </div>
+                </div>
+                
+                <div className="mt-6">
+                  <p className="text-sm md:text-base leading-relaxed text-center">
+                    Hi! I'm Ethan. I have a deep passion for creativity and love to express myself through games and music.
+                    I have a robust work ethic which allowed me to graduate college debt free and I would love to be a part
+                    of your team!
+                  </p>
+                </div>
+              </div>
+            </div>
+          );
+
+          const ProjectsPage = () => (
+            <div className="flex-1 bg-gray-400 p-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                {projects.map((project) => (
+                  <div
+                    key={project.id}
+                    onClick={() => viewProject(project)}
+                    className="bg-white shadow-lg cursor-pointer hover:shadow-xl transition-shadow rounded-lg overflow-hidden"
+                  >
+                    <div className="bg-gray-500 h-32 flex items-center justify-center">
+                      <img src={project.image} alt={project.name} className="w-full h-full object-cover" />
+                    </div>
+                    <div className="p-4">
+                      <h3 className="font-bold text-lg mb-1">{project.name}</h3>
+                      <p className="text-sm text-gray-600">{project.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          );
+
+          const ResumePage = () => (
+            <div className="flex-1 flex flex-col p-8">
+              <div className="bg-gray-400 flex-1 flex items-center justify-center min-h-96 rounded-lg">
+                <p className="text-gray-700 font-medium">Insert Resume Here</p>
+              </div>
+            </div>
+          );
+
+          const ProjectDetailPage = () => (
+            <div className="flex-1 flex flex-col p-8">
+              <div className="bg-gray-400 flex-1 flex items-center justify-center min-h-96 rounded-lg">
+                <p className="text-gray-700 font-medium">Yap yap yap</p>
+              </div>
+            </div>
+          );
+
+          return (
+            <div className="min-h-screen bg-gray-200 flex flex-col">
+              <header className="bg-gray-300 px-4 py-4 flex items-center justify-between">
+                <button
+                  onClick={toggleMenu}
+                  className="p-2 hover:bg-gray-400 transition-colors rounded-lg z-50 relative"
+                  aria-label="Toggle menu"
+                >
+                  {menuOpen ? '✕' : '☰'}
+                </button>
+                <h1 className="text-xl md:text-2xl font-bold">
+                  {currentPage === 'home' && 'Ethan Akiyama'}
+                  {currentPage === 'projects' && 'Projects'}
+                  {currentPage === 'resume' && 'Resume'}
+                  {currentPage === 'project-detail' && 'Project Detail Page'}
+                </h1>
+                <div className="w-10"></div>
+              </header>
+
+              <div className="flex flex-1 relative">
+                {menuOpen && (
+                  <div 
+                    className="fixed inset-0 bg-black bg-opacity-50 z-40"
+                    onClick={toggleMenu}
+                  ></div>
+                )}
+
+                {menuOpen && (
+                  <aside className="fixed left-0 top-0 bottom-0 w-48 bg-gray-400 p-4 z-50 shadow-xl">
+                    <button
+                      onClick={toggleMenu}
+                      className="p-2 hover:bg-gray-500 transition-colors rounded-lg mb-4"
+                      aria-label="Close menu"
+                    >
+                      ✕
+                    </button>
+                    <Navigation />
+                  </aside>
+                )}
+
+                <main className="flex-1 flex flex-col">
+                  {currentPage === 'home' && <HomePage />}
+                  {currentPage === 'projects' && <ProjectsPage />}
+                  {currentPage === 'resume' && <ResumePage />}
+                  {currentPage === 'project-detail' && <ProjectDetailPage />}
+                </main>
+              </div>
+            </div>
+          );
+        };
+
+        ReactDOM.render(<Portfolio />, document.getElementById('root'));
+    </script>
+</body>
+</html>
