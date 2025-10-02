@@ -1,194 +1,231 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ethan Akiyama - Portfolio</title>
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ethan Akiyama - Portfolio</title>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+@keyframes deleting {
+  from { width: 100% }
+  to { width: 0 }
+}
+@keyframes blink {
+  50% { border-color: transparent }
+}
+
+.typing-effect {
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid white;
+  display: inline-block;
+
+  /* total cycle = 14s: 3s type + 4s wait + 3s delete + 4s wait */
+  animation:
+    typing 3s steps(30, end),
+    blink 0.75s step-end infinite,
+    deleting 3s steps(30, end) 7s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+}
+
+  </style>
 </head>
 <body>
-    <div id="root"></div>
-    
-    <script type="text/babel">
-        const { useState } = React;
+  <div id="root"></div>
 
-        const Portfolio = () => {
-          const [currentPage, setCurrentPage] = useState('home');
-          const [selectedProject, setSelectedProject] = useState(null);
-          const [menuOpen, setMenuOpen] = useState(false);
+  <script type="text/babel">
+    const { useState } = React;
 
-          const projects = [
-            { id: 1, name: 'Project Name', description: 'Brief Description', image: 'https://images.unsplash.com/photo-1551650975-87deedd944c3?w=400&h=250&fit=crop' },
-            { id: 2, name: 'Project Name', description: 'Brief Description', image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=250&fit=crop' },
-            { id: 3, name: 'Project Name', description: 'Brief Description', image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&h=250&fit=crop' },
-          ];
+    const Portfolio = () => {
+      const [currentPage, setCurrentPage] = useState('home');
+      const [selectedProject, setSelectedProject] = useState(null);
+      const [menuOpen, setMenuOpen] = useState(false);
 
-          const toggleMenu = () => setMenuOpen(!menuOpen);
+      const projects = [
+        { id: 1, name: 'Project Name', description: 'Brief Description', image: 'https://images.unsplash.com/photo-1551650975-87deedd944c3?w=400&h=250&fit=crop' },
+        { id: 2, name: 'Project Name', description: 'Brief Description', image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=250&fit=crop' },
+        { id: 3, name: 'Project Name', description: 'Brief Description', image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&h=250&fit=crop' },
+      ];
 
-          const navigateTo = (page) => {
-            setCurrentPage(page);
-            setSelectedProject(null);
-            setMenuOpen(false);
-          };
+      const toggleMenu = () => setMenuOpen(!menuOpen);
 
-          const viewProject = (project) => {
-            setSelectedProject(project);
-            setCurrentPage('project-detail');
-            setMenuOpen(false);
-          };
+      const navigateTo = (page) => {
+        setCurrentPage(page);
+        setSelectedProject(null);
+        setMenuOpen(false);
+      };
 
-          const Navigation = () => (
-            <div className="space-y-2">
-              <button
-                onClick={() => navigateTo('home')}
-                className="w-full bg-gray-200 hover:bg-gray-300 text-black font-medium py-3 px-6 transition-colors rounded-lg"
-              >
-                Home
-              </button>
-              <button
-                onClick={() => navigateTo('projects')}
-                className="w-full bg-gray-200 hover:bg-gray-300 text-black font-medium py-3 px-6 transition-colors rounded-lg"
-              >
-                Projects
-              </button>
-              <button
-                onClick={() => navigateTo('resume')}
-                className="w-full bg-gray-200 hover:bg-gray-300 text-black font-medium py-3 px-6 transition-colors rounded-lg"
-              >
-                Resume
-              </button>
-            </div>
-          );
+      const viewProject = (project) => {
+        setSelectedProject(project);
+        setCurrentPage('project-detail');
+        setMenuOpen(false);
+      };
 
-          const HomePage = () => (
-            <div className="flex-1 flex flex-col bg-gray-300">
-              <div className="p-6 flex-1">
-                <div className="bg-gray-500 h-96 md:h-[32rem] rounded-lg relative flex overflow-hidden">
-                  <img 
-                    src="snowboarding.jpg" 
-                    alt="Snowboarding" 
-                    className="absolute inset-0 w-full h-full object-cover object-top"
-                  />
-                  <div className="p-6 flex flex-col space-y-3 w-48 relative z-10">
-                    <button
-                      onClick={() => navigateTo('projects')}
-                      className="w-full bg-gray-200 hover:bg-gray-100 text-black font-medium py-3 px-6 transition-colors rounded-lg"
-                    >
-                      Projects
-                    </button>
-                    <button
-                      onClick={() => navigateTo('resume')}
-                      className="w-full bg-gray-200 hover:bg-gray-100 text-black font-medium py-3 px-6 transition-colors rounded-lg"
-                    >
-                      Resume
-                    </button>
-                  </div>
-                </div>
-                
-                <div className="mt-6">
-                  <p className="text-sm md:text-base leading-relaxed text-center">
-                    Hi! I'm Ethan. I have a deep passion for creativity and love to express myself through games and music.
-                    I have a robust work ethic which allowed me to graduate college debt free and I would love to be a part
-                    of your team!
-                  </p>
-                </div>
-              </div>
-            </div>
-          );
+      const Navigation = () => (
+        <div className="space-y-2">
+          <button
+            onClick={() => navigateTo('home')}
+            className="w-full bg-gray-200 hover:bg-gray-300 text-black font-medium py-3 px-6 transition-all rounded-lg"
+          >
+            Home
+          </button>
+          <button
+            onClick={() => navigateTo('projects')}
+            className="w-full bg-gray-200 hover:bg-gray-300 text-black font-medium py-3 px-6 transition-all rounded-lg"
+          >
+            Projects
+          </button>
+          <button
+            onClick={() => navigateTo('resume')}
+            className="w-full bg-gray-200 hover:bg-gray-300 text-black font-medium py-3 px-6 transition-all rounded-lg"
+          >
+            Resume
+          </button>
+        </div>
+      );
 
-          const ProjectsPage = () => (
-            <div className="flex-1 bg-gray-400 p-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-                {projects.map((project) => (
-                  <div
-                    key={project.id}
-                    onClick={() => viewProject(project)}
-                    className="bg-white shadow-lg cursor-pointer hover:shadow-xl transition-shadow rounded-lg overflow-hidden"
+      const HomePage = () => (
+        <div className="flex-1 flex flex-col bg-gray-300">
+          <div className="p-6 flex-1">
+            <div className="bg-gray-500 aspect-[4/3] md:aspect-[16/9] rounded-lg relative flex overflow-hidden">
+              <img 
+                src="snowboarding.jpg" 
+                alt="Snowboarding" 
+                className="absolute inset-0 w-full h-full object-cover object-[center_-100px]"
+              />
+              <div className="absolute top-1/2 left-6 -translate-y-1/2 flex items-start space-x-6 z-10">
+                <div className="flex flex-col space-y-3 w-48">
+                  <button
+                    onClick={() => navigateTo('projects')}
+                    className="w-full bg-gray-200 hover:bg-gray-100 text-black font-medium py-3 px-6 rounded-lg transition-all hover:scale-105"
                   >
-                    <div className="bg-gray-500 h-32 flex items-center justify-center">
-                      <img src={project.image} alt={project.name} className="w-full h-full object-cover" />
-                    </div>
-                    <div className="p-4">
-                      <h3 className="font-bold text-lg mb-1">{project.name}</h3>
-                      <p className="text-sm text-gray-600">{project.description}</p>
-                    </div>
-                  </div>
-                ))}
+                    Projects
+                  </button>
+                  <button
+                    onClick={() => navigateTo('resume')}
+                    className="w-full bg-gray-200 hover:bg-gray-100 text-black font-medium py-3 px-6 rounded-lg transition-all hover:scale-105"
+                  >
+                    Resume
+                  </button>
+                </div>
+                <p className="typing-effect text-2xl font-bold text-white drop-shadow-lg">
+                  Hey! I'm Ethan
+                </p>
               </div>
             </div>
-          );
 
-          const ResumePage = () => (
-            <div className="flex-1 flex flex-col p-8">
-              <div className="bg-gray-400 flex-1 flex items-center justify-center min-h-96 rounded-lg">
-                <p className="text-gray-700 font-medium">Insert Resume Here</p>
-              </div>
+            <div className="mt-6">
+              <p className="text-sm md:text-base leading-relaxed text-center">
+                Hi! I'm Ethan. I have a deep passion for creativity and love to express myself through games and music.
+                I have a robust work ethic which allowed me to graduate college debt free and I would love to be a part
+                of your team!
+              </p>
             </div>
-          );
+          </div>
+        </div>
+      );
 
-          const ProjectDetailPage = () => (
-            <div className="flex-1 flex flex-col p-8">
-              <div className="bg-gray-400 flex-1 flex items-center justify-center min-h-96 rounded-lg">
-                <p className="text-gray-700 font-medium">Yap yap yap</p>
+      const ProjectsPage = () => (
+        <div className="flex-1 bg-gray-400 p-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            {projects.map((project) => (
+              <div
+                key={project.id}
+                onClick={() => viewProject(project)}
+                className="bg-white shadow-lg cursor-pointer hover:shadow-2xl hover:scale-105 transition-all rounded-lg overflow-hidden"
+              >
+                <div className="relative aspect-[4/3] md:aspect-[16/9] bg-gray-500">
+                  <img src={project.image} alt={project.name} className="absolute inset-0 w-full h-full object-cover" loading="lazy" />
+                </div>
+                <div className="p-5">
+                  <h3 className="font-bold text-lg mb-1">{project.name}</h3>
+                  <p className="text-sm text-gray-600">{project.description}</p>
+                </div>
               </div>
-            </div>
-          );
+            ))}
+          </div>
+        </div>
+      );
 
-          return (
-            <div className="min-h-screen bg-gray-200 flex flex-col">
-              <header className="bg-gray-300 px-4 py-4 flex items-center justify-between">
-                <button
+      const ResumePage = () => (
+        <div className="flex-1 flex flex-col p-8">
+          <div className="bg-gray-400 flex-1 flex items-center justify-center min-h-96 rounded-lg">
+            <p className="text-gray-700 font-medium">Insert Resume Here</p>
+          </div>
+        </div>
+      );
+
+      const ProjectDetailPage = () => (
+        <div className="flex-1 flex flex-col p-8">
+          <div className="bg-gray-400 flex-1 flex items-center justify-center min-h-96 rounded-lg">
+            <p className="text-gray-700 font-medium">Yap yap yap</p>
+          </div>
+        </div>
+      );
+
+      return (
+        <div className="min-h-screen bg-gray-200 flex items-center justify-center">
+          {/* lock to 16:9 aspect ratio */}
+          <div className="w-full h-full max-w-[177.78vh] aspect-video flex flex-col">
+            <header className="bg-gray-300 px-4 py-4 flex items-center justify-between">
+              <button
+                onClick={toggleMenu}
+                className="p-2 hover:bg-gray-400 transition-all rounded-lg z-50 relative"
+                aria-label="Toggle menu"
+              >
+                {menuOpen ? '✕' : '☰'}
+              </button>
+              <h1 className="text-xl md:text-2xl font-bold">
+                {currentPage === 'home' && 'Ethan Akiyama'}
+                {currentPage === 'projects' && 'Projects'}
+                {currentPage === 'resume' && 'Resume'}
+                {currentPage === 'project-detail' && 'Project Detail Page'}
+              </h1>
+              <div className="w-10"></div>
+            </header>
+
+            <div className="flex flex-1 relative">
+              {menuOpen && (
+                <div 
+                  className="fixed inset-0 bg-black bg-opacity-50 z-40"
                   onClick={toggleMenu}
-                  className="p-2 hover:bg-gray-400 transition-colors rounded-lg z-50 relative"
-                  aria-label="Toggle menu"
-                >
-                  {menuOpen ? '✕' : '☰'}
-                </button>
-                <h1 className="text-xl md:text-2xl font-bold">
-                  {currentPage === 'home' && 'Ethan Akiyama'}
-                  {currentPage === 'projects' && 'Projects'}
-                  {currentPage === 'resume' && 'Resume'}
-                  {currentPage === 'project-detail' && 'Project Detail Page'}
-                </h1>
-                <div className="w-10"></div>
-              </header>
+                ></div>
+              )}
 
-              <div className="flex flex-1 relative">
-                {menuOpen && (
-                  <div 
-                    className="fixed inset-0 bg-black bg-opacity-50 z-40"
+              {menuOpen && (
+                <aside className="fixed left-0 top-0 bottom-0 w-48 bg-gray-400 p-4 z-50 shadow-xl">
+                  <button
                     onClick={toggleMenu}
-                  ></div>
-                )}
+                    className="p-2 hover:bg-gray-500 transition-all rounded-lg mb-4"
+                    aria-label="Close menu"
+                  >
+                    ✕
+                  </button>
+                  <Navigation />
+                </aside>
+              )}
 
-                {menuOpen && (
-                  <aside className="fixed left-0 top-0 bottom-0 w-48 bg-gray-400 p-4 z-50 shadow-xl">
-                    <button
-                      onClick={toggleMenu}
-                      className="p-2 hover:bg-gray-500 transition-colors rounded-lg mb-4"
-                      aria-label="Close menu"
-                    >
-                      ✕
-                    </button>
-                    <Navigation />
-                  </aside>
-                )}
-
-                <main className="flex-1 flex flex-col">
-                  {currentPage === 'home' && <HomePage />}
-                  {currentPage === 'projects' && <ProjectsPage />}
-                  {currentPage === 'resume' && <ResumePage />}
-                  {currentPage === 'project-detail' && <ProjectDetailPage />}
-                </main>
-              </div>
+              <main className="flex-1 flex flex-col">
+                {currentPage === 'home' && <HomePage />}
+                {currentPage === 'projects' && <ProjectsPage />}
+                {currentPage === 'resume' && <ResumePage />}
+                {currentPage === 'project-detail' && <ProjectDetailPage />}
+              </main>
             </div>
-          );
-        };
+          </div>
+        </div>
+      );
+    };
 
-        ReactDOM.render(<Portfolio />, document.getElementById('root'));
-    </script>
+    ReactDOM.render(<Portfolio />, document.getElementById('root'));
+  </script>
 </body>
 </html>
