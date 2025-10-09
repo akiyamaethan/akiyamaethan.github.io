@@ -22,7 +22,6 @@ body {
   60%, 100% { max-width: 0 }
 }
 
-
 @keyframes blink {
   50% { border-color: transparent }
 }
@@ -43,331 +42,140 @@ body {
   <div id="root"></div>
 
   <script type="text/babel">
-    const { useState } = React;
+const { useState, useEffect } = React;
 
-    const Portfolio = () => {
-      const [currentPage, setCurrentPage] = useState('home');
-      const [selectedProject, setSelectedProject] = useState(null);
-      const [menuOpen, setMenuOpen] = useState(false);
+const Portfolio = () => {
+  const [currentPage, setCurrentPage] = useState('home');
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [scrolled, setScrolled] = useState(false);
 
-      const projects = [
-        { id: 1, name: 'Project Name', description: 'Brief Description', image: 'https://images.unsplash.com/photo-1551650975-87deedd944c3?w=400&h=250&fit=crop' },
-        { id: 2, name: 'Project Name', description: 'Brief Description', image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=250&fit=crop' },
-        { id: 3, name: 'Project Name', description: 'Brief Description', image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&h=250&fit=crop' },
-      ];
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
-      const toggleMenu = () => setMenuOpen(!menuOpen);
+  const projects = [
+    { id: 1, name: 'Project Name', description: 'Brief Description', image: 'https://images.unsplash.com/photo-1551650975-87deedd944c3?w=400&h=250&fit=crop' },
+    { id: 2, name: 'Project Name', description: 'Brief Description', image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=250&fit=crop' },
+    { id: 3, name: 'Project Name', description: 'Brief Description', image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&h=250&fit=crop' },
+  ];
 
-      const navigateTo = (page) => {
-        setCurrentPage(page);
-        setSelectedProject(null);
-        setMenuOpen(false);
-      };
+  const navigateTo = (page) => {
+    setCurrentPage(page);
+    setSelectedProject(null);
+  };
 
-      const viewProject = (project) => {
-        setSelectedProject(project);
-        setCurrentPage('project-detail');
-        setMenuOpen(false);
-      };
+  const viewProject = (project) => {
+    setSelectedProject(project);
+    setCurrentPage('project-detail');
+  };
 
-      const Navigation = () => (
-        <div className="space-y-2">
-          <button
-            onClick={() => navigateTo('home')}
-            className="w-full bg-gray-200 hover:bg-gray-300 text-black font-medium py-3 px-6 transition-all rounded-lg"
-          >
-            Home
-          </button>
-          <button
-            onClick={() => navigateTo('projects')}
-            className="w-full bg-gray-200 hover:bg-gray-300 text-black font-medium py-3 px-6 transition-all rounded-lg"
-          >
-            Projects
-          </button>
-          <button
-            onClick={() => navigateTo('resume')}
-            className="w-full bg-gray-200 hover:bg-gray-300 text-black font-medium py-3 px-6 transition-all rounded-lg"
-          >
-            Resume
-          </button>
-        </div>
-      );
-
-      const HomePage = () => (
-        <div className="flex-1 flex flex-col bg-gray-300">
-          <div className="p-6 flex-1 flex flex-col">
-            <div className="bg-gray-500 aspect-[4/3] md:aspect-[16/9] rounded-lg relative flex overflow-hidden shadow-xl">
-              <img 
-                src="snowboarding.jpg" 
-                alt="Snowboarding" 
-                className="absolute inset-0 w-full h-full object-cover object-[center_-100px]"
-              />
-              <div className="absolute top-1/2 left-6 -translate-y-1/2 flex flex-col md:flex-row items-start md:space-x-6 space-y-3 md:space-y-0 z-10">
-                <div className="flex flex-col space-y-3 w-48">
-                  <button
-                    onClick={() => navigateTo('projects')}
-                    className="w-full bg-gray-200 hover:bg-gray-100 text-black font-medium py-3 px-6 rounded-lg transition-all hover:scale-105"
-                  >
-                    Projects
-                  </button>
-                  <button
-                    onClick={() => navigateTo('resume')}
-                    className="w-full bg-gray-200 hover:bg-gray-100 text-black font-medium py-3 px-6 rounded-lg transition-all hover:scale-105"
-                  >
-                    Resume
-                  </button>
-                </div>
-                <div className="w-64">
-                  <p className="typing-effect text-2xl font-bold text-white drop-shadow-lg">
-                    Hey! I'm Ethan
-                  </p>
-                </div>
-              </div>
-              
-              {/* Introduction text at bottom */}
-              <div className="absolute bottom-0 left-0 right-0 pb-24 pt-6 px-6 z-10">
-                <p className="text-sm md:text-base leading-relaxed text-center text-white max-w-4xl mx-auto drop-shadow-lg">
-                  Hi! I'm Ethan. I have a deep passion for creativity and love to express myself through games and music.<br />
-                  I have a robust work ethic which allowed me to graduate college debt free and I would love to be a part of your team!
-                </p>
-              </div>
+  const HomePage = () => (
+    <div className="flex-1 flex flex-col bg-gray-300">
+      <div className="p-6 flex-1 flex flex-col">
+        <div className="bg-gray-500 aspect-[4/3] md:aspect-[16/9] rounded-lg relative flex overflow-hidden shadow-xl">
+          <img 
+            src="snowboarding.jpg" 
+            alt="Snowboarding" 
+            className="absolute inset-0 w-full h-full object-cover object-[center_-100px]"
+          />
+          <div className="absolute top-1/2 left-6 -translate-y-1/2 flex flex-col md:flex-row items-start md:space-x-6 space-y-3 md:space-y-0 z-10">
+            <div className="flex flex-col space-y-3 w-48">
+              <button
+                onClick={() => navigateTo('projects')}
+                className="w-full bg-gray-200 hover:bg-gray-100 text-black font-medium py-3 px-6 rounded-lg transition-all hover:scale-105"
+              >
+                Projects
+              </button>
             </div>
-          </div>
-        </div>
-      );
-
-      const ProjectsPage = () => (
-        <div className="flex-1 flex flex-col bg-gray-300 p-6">
-          {/* Fixed-height scrollable panel */}
-          <div className="bg-gray-400 rounded-lg shadow-xl p-8 h-[80vh] overflow-y-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-20 max-w-6xl mx-auto">
-              {projects.map((project) => (
-                <div
-                  key={project.id}
-                  onClick={() => viewProject(project)}
-                  className="bg-white shadow-lg cursor-pointer hover:shadow-2xl hover:scale-105 transition-all rounded-lg overflow-hidden"
-                >
-                  <div className="relative aspect-[4/3] md:aspect-[16/9] bg-gray-500">
-                    <img
-                      src={project.image}
-                      alt={project.name}
-                      className="absolute inset-0 w-full h-full object-cover"
-                      loading="lazy"
-                    />
-                  </div>
-                  <div className="p-5">
-                    <h3 className="font-bold text-lg mb-1">{project.name}</h3>
-                    <p className="text-sm text-gray-600">{project.description}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      );
-
-      const ResumePage = () => (
-        <div className="flex-1 flex flex-col p-8 bg-gray-300 overflow-auto">
-          <div className="bg-white flex-1 rounded-lg shadow-lg p-8 md:p-12">
-            {/* Header */}
-            <div className="text-center mb-6">
-              <h1 className="text-4xl font-bold mb-2">Ethan Akiyama</h1>
-              <div className="text-sm text-gray-600">
-                (831) 461-5628 | <a href="mailto:akiyamaethan@gmail.com" className="text-blue-600 hover:underline">akiyamaethan@gmail.com</a> | 
-                <a href="https://linkedin.com/in/ethanakiyama" className="text-blue-600 hover:underline ml-1">linkedin.com/in/ethanakiyama</a> | 
-                <a href="https://akiyamaethan.github.io/" className="text-blue-600 hover:underline ml-1">akiyamaethan.github.io</a>
-              </div>
-            </div>
-
-            {/* Summary */}
-            <div className="mb-6">
-              <h2 className="text-2xl font-bold border-b-2 border-gray-300 pb-1 mb-3">Summary</h2>
-              <p className="text-sm">
-                Passionate game design student with a broad and unique combination of experience in tech and non-tech
-                positions. Experienced in providing quality assurance to both web and mobile applications. Able to relate well
-                with diverse populations and age groups. Excellent problem solver with a thirst for continuous learning.
+            <div className="w-64">
+              <p className="typing-effect text-2xl font-bold text-white drop-shadow-lg">
+                Hey! I'm Ethan
               </p>
             </div>
+          </div>
 
-            {/* Experience */}
-            <div className="mb-6">
-              <h2 className="text-2xl font-bold border-b-2 border-gray-300 pb-1 mb-3">Experience</h2>
-              <div className="mb-4">
-                <div className="flex justify-between items-start mb-1">
-                  <div>
-                    <h3 className="font-bold">Quality Assurance Engineering</h3>
-                    <p className="text-sm italic">Arrived Workforce Connections</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="font-semibold">2021-2023</p>
-                    <p className="text-sm italic">Fresno, CA</p>
-                  </div>
-                </div>
-                <ul className="list-disc ml-5 text-sm space-y-1">
-                  <li>Remote, part-time experience in manual testing and setting up automatic testing frameworks</li>
-                  <li>Contributed to this startups staffing software that was subsequently sold to LiveHire</li>
-                  <li>Helped develop 2 end-to-end testing frameworks that roughly halved amount of time required for regression testing</li>
-                </ul>
-              </div>
-            </div>
-
-            {/* Projects */}
-            <div className="mb-6">
-              <h2 className="text-2xl font-bold border-b-2 border-gray-300 pb-1 mb-3">Projects</h2>
-              
-              <div className="mb-4">
-                <div className="flex justify-between items-start mb-1">
-                  <div>
-                    <h3 className="font-bold">Fugue</h3>
-                    <p className="text-sm italic">Computer Science: Game Design, University of California, Santa Cruz</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="font-semibold">Spring 2025</p>
-                    <p className="text-sm italic">Javascript, Phaser</p>
-                  </div>
-                </div>
-                <ul className="list-disc ml-5 text-sm space-y-1">
-                  <li>Gained experience with game programming, sound design, and visual effects while creating a musical platformer</li>
-                  <li>Utilized Phaser and Javascript to create and link scenes together and control audio and visual effects</li>
-                  <li>Created an original soundtrack to accompany gameplay</li>
-                </ul>
-              </div>
-
-              <div className="mb-4">
-                <div className="flex justify-between items-start mb-1">
-                  <div>
-                    <h3 className="font-bold">Nozama Driver</h3>
-                    <p className="text-sm italic">Computer Science: Game Design, University of California, Santa Cruz</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="font-semibold">Winter 2024</p>
-                    <p className="text-sm italic">Gdevelop</p>
-                  </div>
-                </div>
-                <ul className="list-disc ml-5 text-sm space-y-1">
-                  <li>Acquired practical experience storyboarding an arcade-style delivery driver game named Nozama Driver</li>
-                  <li>Led 2 fellow students and managed the scope of the project while manufacturing gameplay loops and tailoring gameplay experience via game mechanics</li>
-                  <li>Utilized GitHub to code collaboratively and GDevelop to create the game</li>
-                </ul>
-              </div>
-            </div>
-
-            {/* Education */}
-            <div className="mb-6">
-              <h2 className="text-2xl font-bold border-b-2 border-gray-300 pb-1 mb-3">Education</h2>
-              
-              <div className="mb-3">
-                <div className="flex justify-between items-start mb-1">
-                  <div>
-                    <h3 className="font-bold">University of California, Santa Cruz</h3>
-                    <p className="text-sm italic">B.S. in Computer Science: Game Design. Expected Graduation: 2026</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="font-semibold">2024 -- 2026</p>
-                    <p className="text-sm italic">Santa Cruz, CA</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mb-3">
-                <div className="flex justify-between items-start mb-1">
-                  <div>
-                    <h3 className="font-bold">Cabrillo College</h3>
-                    <p className="text-sm italic">Relevant Coursework: C++ and Python programming, Mobile applications</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="font-semibold">2021 -- 2024</p>
-                    <p className="text-sm italic">Aptos, CA</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Technical Skills */}
-            <div className="mb-6">
-              <h2 className="text-2xl font-bold border-b-2 border-gray-300 pb-1 mb-3">Technical Skills</h2>
-              <div className="text-sm space-y-1">
-                <p><span className="font-bold">Programming Languages:</span> Python, C, C++, Java, Javascript, RISC-V Assembly</p>
-                <p><span className="font-bold">Tools:</span> Jira, Android Studio, Git, Docker, Gdevelop, Phaser</p>
-              </div>
-            </div>
-
-            {/* Extracurriculars */}
-            <div className="mb-6">
-              <h2 className="text-2xl font-bold border-b-2 border-gray-300 pb-1 mb-3">Extracurriculars</h2>
-              <ul className="list-disc ml-5 text-sm space-y-1">
-                <li>Member: Game Design Art Collaboration (GDA) Club, UCSC</li>
-                <li>Member: UCSC Muay Thai Club</li>
-                <li>Trombone Player: Soquel High School</li>
-              </ul>
-            </div>
+          {/* Introduction text at bottom */}
+          <div className="absolute bottom-0 left-0 right-0 pb-24 pt-6 px-6 z-10">
+            <p className="text-sm md:text-base leading-relaxed text-center text-white max-w-4xl mx-auto drop-shadow-lg">
+              Hi! I'm Ethan. I have a deep passion for creativity and love to express myself through games and music.<br />
+              I have a robust work ethic which allowed me to graduate college debt free and I would love to be a part of your team!
+            </p>
           </div>
         </div>
-      );
+      </div>
+    </div>
+  );
 
-      const ProjectDetailPage = () => (
-        <div className="flex-1 flex flex-col p-8">
-          <div className="bg-gray-400 flex-1 flex items-center justify-center min-h-96 rounded-lg">
-            <p className="text-gray-700 font-medium">Yap yap yap</p>
-          </div>
-        </div>
-      );
-
-      return (
-        <div className="min-h-screen w-screen bg-gray-300 flex items-center justify-center">
-          {/* lock to 16:9 aspect ratio */}
-          <div className="w-full h-full max-w-[177.78vh] max-h-[56.25vw] flex flex-col bg-gray-200">
-            <header className="bg-gray-300 px-4 py-4 flex items-center justify-between">
-              <button
-                onClick={toggleMenu}
-                className="p-2 hover:bg-gray-400 transition-all rounded-lg z-50 relative"
-                aria-label="Toggle menu"
-              >
-                {menuOpen ? '✕' : '☰'}
-              </button>
-              <h1 className="text-xl md:text-2xl font-bold">
-                {currentPage === 'home' && 'Ethan Akiyama'}
-                {currentPage === 'projects' && 'Projects'}
-                {currentPage === 'resume' && 'Resume'}
-                {currentPage === 'project-detail' && 'Project Detail Page'}
-              </h1>
-              <div className="w-10"></div>
-            </header>
-
-            <div className="flex flex-1 relative overflow-hidden">
-              {menuOpen && (
-                <div 
-                  className="fixed inset-0 bg-black bg-opacity-50 z-40"
-                  onClick={toggleMenu}
-                ></div>
-              )}
-
-              {menuOpen && (
-                <aside className="fixed left-0 top-0 bottom-0 w-48 bg-gray-400 p-4 z-50 shadow-xl">
-                  <button
-                    onClick={toggleMenu}
-                    className="p-2 hover:bg-gray-500 transition-all rounded-lg mb-4"
-                    aria-label="Close menu"
-                  >
-                    ✕
-                  </button>
-                  <Navigation />
-                </aside>
-              )}
-
-              <main className="flex-1 flex flex-col overflow-auto">
-                {currentPage === 'home' && <HomePage />}
-                {currentPage === 'projects' && <ProjectsPage />}
-                {currentPage === 'resume' && <ResumePage />}
-                {currentPage === 'project-detail' && <ProjectDetailPage />}
-              </main>
+  const ProjectsPage = () => (
+    <div className="flex-1 flex flex-col bg-gray-300 p-6">
+      <div className="bg-gray-400 rounded-lg shadow-xl p-8 h-[80vh] overflow-y-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-20 max-w-6xl mx-auto">
+          {projects.map((project) => (
+            <div
+              key={project.id}
+              onClick={() => viewProject(project)}
+              className="bg-white shadow-lg cursor-pointer hover:shadow-2xl hover:scale-105 transition-all rounded-lg overflow-hidden"
+            >
+              <div className="relative aspect-[4/3] md:aspect-[16/9] bg-gray-500">
+                <img
+                  src={project.image}
+                  alt={project.name}
+                  className="absolute inset-0 w-full h-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+              <div className="p-5">
+                <h3 className="font-bold text-lg mb-1">{project.name}</h3>
+                <p className="text-sm text-gray-600">{project.description}</p>
+              </div>
             </div>
-          </div>
+          ))}
         </div>
-      );
-    };
+      </div>
+    </div>
+  );
 
-    ReactDOM.render(<Portfolio />, document.getElementById('root'));
+  const ProjectDetailPage = () => (
+    <div className="flex-1 flex flex-col p-8">
+      <div className="bg-gray-400 flex-1 flex items-center justify-center min-h-96 rounded-lg">
+        <p className="text-gray-700 font-medium">Yap yap yap</p>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="min-h-screen w-screen bg-gray-300 flex items-center justify-center">
+      <div className="relative w-full h-full max-w-[177.78vh] max-h-[56.25vw] flex flex-col bg-gray-300">
+        
+        {/* Header overlays hero image */}
+        <header
+          className={`absolute top-[env(safe-area-inset-top)] left-0 right-0 mx-4 mt-12 px-8 flex items-center justify-between rounded-lg shadow-md z-40 transition-all duration-300 ${
+            scrolled ? 'py-3 scale-[0.98]' : 'py-6'
+          } bg-gray-300`}
+        >
+          <h1 className="text-xl md:text-2xl font-bold text-black drop-shadow-md">
+            {currentPage === 'home' && 'Ethan Akiyama'}
+            {currentPage === 'projects' && 'Projects'}
+            {currentPage === 'project-detail' && 'Project Detail Page'}
+          </h1>
+          <div className="w-10"></div>
+        </header>
+
+        <div className="flex flex-1 relative overflow-hidden">
+          <main className="flex-1 flex flex-col overflow-auto">
+            {currentPage === 'home' && <HomePage />}
+            {currentPage === 'projects' && <ProjectsPage />}
+            {currentPage === 'project-detail' && <ProjectDetailPage />}
+          </main>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+ReactDOM.render(<Portfolio />, document.getElementById('root'));
   </script>
 </body>
 </html>
