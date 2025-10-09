@@ -45,8 +45,6 @@ body {
 const { useState, useEffect } = React;
 
 const Portfolio = () => {
-  const [currentPage, setCurrentPage] = useState('home');
-  const [selectedProject, setSelectedProject] = useState(null);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -55,134 +53,79 @@ const Portfolio = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const projects = [
-    { id: 1, name: 'Project Name', description: 'Brief Description', image: 'https://images.unsplash.com/photo-1551650975-87deedd944c3?w=400&h=250&fit=crop' },
-    { id: 2, name: 'Project Name', description: 'Brief Description', image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=250&fit=crop' },
-    { id: 3, name: 'Project Name', description: 'Brief Description', image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&h=250&fit=crop' },
-  ];
-
-  const navigateTo = (page) => {
-    setCurrentPage(page);
-    setSelectedProject(null);
-  };
-
-  const viewProject = (project) => {
-    setSelectedProject(project);
-    setCurrentPage('project-detail');
-  };
-
   const HomePage = () => (
-    <div className="flex-1 flex flex-col bg-gray-300">
-      <div className="p-6 flex-1 flex flex-col">
-        <div className="bg-gray-500 aspect-[4/3] md:aspect-[16/9] rounded-lg relative flex overflow-hidden shadow-xl">
-          <img 
-            src="snowboarding.jpg" 
-            alt="Snowboarding" 
-            className="absolute inset-0 w-full h-full object-cover object-[center_-100px]"
-          />
-
-          {/* Animated text with horizontal offset preserved */}
-          <div className="absolute top-1/2 left-6 md:left-80 -translate-y-1/2 z-10">
-            <p className="typing-effect text-2xl font-bold text-white drop-shadow-lg">
-              Hey! I'm Ethan
-            </p>
-          </div>
-
-          {/* Introduction text at bottom */}
-          <div className="absolute bottom-0 left-0 right-0 pb-24 pt-6 px-6 z-10">
-            <p className="text-sm md:text-base leading-relaxed text-center text-white max-w-4xl mx-auto drop-shadow-lg">
-              Hi! I'm Ethan. I have a deep passion for creativity and love to express myself through games and music.<br />
-              I have a robust work ethic which allowed me to graduate college debt free and I would love to be a part of your team!
-            </p>
-          </div>
+    <div className="relative w-full flex-shrink-0" style={{ paddingTop: '56.25%' }}>
+      <div className="absolute inset-0 bg-gray-500 rounded-lg overflow-hidden shadow-xl">
+        <img 
+          src="snowboarding.jpg" 
+          alt="Snowboarding" 
+          className="absolute inset-0 w-full h-full object-cover object-[center_-100px]"
+        />
+        <div className="absolute top-1/2 left-6 md:left-80 -translate-y-1/2 z-10">
+          <p className="typing-effect text-2xl font-bold text-white drop-shadow-lg">
+            Hey! I'm Ethan
+          </p>
+        </div>
+        <div className="absolute bottom-0 left-0 right-0 pb-24 pt-6 px-6 z-10">
+          <p className="text-sm md:text-base leading-relaxed text-center text-white max-w-4xl mx-auto drop-shadow-lg">
+            Hi! I'm Ethan. I have a deep passion for creativity and love to express myself through games and music.<br />
+            I have a robust work ethic which allowed me to graduate college debt free and I would love to be a part of your team!
+          </p>
         </div>
       </div>
     </div>
   );
 
-
-
-
-  const ProjectsPage = () => (
-    <div className="flex-1 flex flex-col bg-gray-300 p-6">
-      <div className="bg-gray-400 rounded-lg shadow-xl p-8 h-[80vh] overflow-y-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-20 max-w-6xl mx-auto">
-          {projects.map((project) => (
-            <div
-              key={project.id}
-              onClick={() => viewProject(project)}
-              className="bg-white shadow-lg cursor-pointer hover:shadow-2xl hover:scale-105 transition-all rounded-lg overflow-hidden"
-            >
-              <div className="relative aspect-[4/3] md:aspect-[16/9] bg-gray-500">
-                <img
-                  src={project.image}
-                  alt={project.name}
-                  className="absolute inset-0 w-full h-full object-cover"
-                  loading="lazy"
-                />
-              </div>
-              <div className="p-5">
-                <h3 className="font-bold text-lg mb-1">{project.name}</h3>
-                <p className="text-sm text-gray-600">{project.description}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-
-  const ProjectDetailPage = () => (
-    <div className="flex-1 flex flex-col p-8">
-      <div className="bg-gray-400 flex-1 flex items-center justify-center min-h-96 rounded-lg">
-        <p className="text-gray-700 font-medium">Yap yap yap</p>
-      </div>
+  const ShowcaseSection = () => (
+    <div className="w-full flex items-center justify-center bg-gray-400" style={{ height: 'calc(56.25vw * 3)' }}>
+      <p className="text-lg text-gray-800 px-6 text-center max-w-4xl">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin feugiat, augue id aliquam fermentum, nulla odio pretium massa, a commodo magna arcu sit amet lorem. Suspendisse potenti. Fusce sit amet sapien ut mauris suscipit pharetra. Integer vulputate ligula id ex tempus, a vulputate erat placerat.
+      </p>
     </div>
   );
 
   return (
-    <div className="min-h-screen w-screen bg-gray-300 flex items-center justify-center">
-      <div className="relative w-full h-full max-w-[177.78vh] max-h-[56.25vw] flex flex-col bg-gray-300">
-        
-        {/* Header overlays hero image */}
-        <header
-          className={`absolute top-[env(safe-area-inset-top)] left-0 right-0 mx-4 mt-12 px-8 flex items-center justify-between rounded-lg shadow-md z-40 transition-all duration-300 ${
-            scrolled ? 'py-3 scale-[0.98]' : 'py-6'
-          } bg-gray-300`}
-        >
-          <h1 className="text-xl md:text-2xl font-bold text-black drop-shadow-md">
-            {currentPage === 'home' && 'Ethan Akiyama'}
-            {currentPage === 'projects' && 'Projects'}
-            {currentPage === 'project-detail' && 'Project Detail Page'}
-          </h1>
-          <div className="w-10"></div>
+<div className="min-h-screen w-screen bg-gray-300 flex justify-center">
+  <div className="relative w-full max-w-[177.78vh] mx-auto flex flex-col">
 
-<a
-  href="resume.pdf"
-  download="Ethan_Akiyama_Resume.pdf"
-  target="_blank"
-  rel="noopener noreferrer"
-  className="flex items-center bg-gray-200 hover:bg-gray-300 text-black font-medium py-2 px-4 rounded-lg transition-all hover:scale-105"
->
-  {/* Minimalistic download SVG */}
-  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2">
-    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-    <polyline points="7 10 12 15 17 10"/>
-    <line x1="12" y1="15" x2="12" y2="3"/>
-  </svg>
-  Resume
-</a>
-        </header>
+    {/* Header initially overlays hero */}
+    <header
+      className={`absolute top-[env(safe-area-inset-top)] left-0 right-0 mx-4 mt-12 px-8 flex items-center justify-between rounded-lg shadow-md z-50 transition-all duration-300 ${
+        scrolled ? 'sticky py-3 scale-[0.98]' : 'py-6'
+      } bg-gray-300`}
+    >
+      <h1 className="text-xl md:text-2xl font-bold text-black drop-shadow-md">
+        Ethan Akiyama
+      </h1>
+      <a
+        href="resume.pdf"
+        download="Ethan_Akiyama_Resume.pdf"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center bg-gray-200 hover:bg-gray-300 text-black font-medium py-2 px-4 rounded-lg transition-all hover:scale-105"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        Resume
+      </a>
+    </header>
 
-        <div className="flex flex-1 relative overflow-hidden">
-          <main className="flex-1 flex flex-col overflow-auto">
-            {currentPage === 'home' && <HomePage />}
-            {currentPage === 'projects' && <ProjectsPage />}
-            {currentPage === 'project-detail' && <ProjectDetailPage />}
-          </main>
-        </div>
-      </div>
+    {/* Hero section */}
+    <HomePage />
+
+    {/* Showcase section */}
+    <div className="h-[calc(3*56.25vw)] bg-gray-400 flex items-center justify-center">
+      <p className="text-gray-700 text-center px-4">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vehicula urna eu libero pretium, sed pretium metus placerat. Integer finibus.
+      </p>
     </div>
+
+  </div>
+</div>
+
   );
 };
 
