@@ -48,7 +48,6 @@ body {
     const Portfolio = () => {
       const [currentPage, setCurrentPage] = useState('home');
       const [selectedProject, setSelectedProject] = useState(null);
-      const [menuOpen, setMenuOpen] = useState(false);
 
       const projects = [
         { id: 1, name: 'Project Name', description: 'Brief Description', image: 'https://images.unsplash.com/photo-1551650975-87deedd944c3?w=400&h=250&fit=crop' },
@@ -56,42 +55,15 @@ body {
         { id: 3, name: 'Project Name', description: 'Brief Description', image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&h=250&fit=crop' },
       ];
 
-      const toggleMenu = () => setMenuOpen(!menuOpen);
-
       const navigateTo = (page) => {
         setCurrentPage(page);
         setSelectedProject(null);
-        setMenuOpen(false);
       };
 
       const viewProject = (project) => {
         setSelectedProject(project);
         setCurrentPage('project-detail');
-        setMenuOpen(false);
       };
-
-      const Navigation = () => (
-        <div className="space-y-2">
-          <button
-            onClick={() => navigateTo('home')}
-            className="w-full bg-gray-200 hover:bg-gray-300 text-black font-medium py-3 px-6 transition-all rounded-lg"
-          >
-            Home
-          </button>
-          <button
-            onClick={() => navigateTo('projects')}
-            className="w-full bg-gray-200 hover:bg-gray-300 text-black font-medium py-3 px-6 transition-all rounded-lg"
-          >
-            Projects
-          </button>
-          <button
-            onClick={() => navigateTo('resume')}
-            className="w-full bg-gray-200 hover:bg-gray-300 text-black font-medium py-3 px-6 transition-all rounded-lg"
-          >
-            Resume
-          </button>
-        </div>
-      );
 
       const HomePage = () => (
         <div className="flex-1 flex flex-col bg-gray-300">
@@ -317,44 +289,39 @@ body {
         <div className="min-h-screen w-screen bg-gray-300 flex items-center justify-center">
           {/* lock to 16:9 aspect ratio */}
           <div className="w-full h-full max-w-[177.78vh] max-h-[56.25vw] flex flex-col bg-gray-200">
-            <header className="bg-gray-300 px-4 py-4 flex items-center justify-between">
-              <button
-                onClick={toggleMenu}
-                className="p-2 hover:bg-gray-400 transition-all rounded-lg z-50 relative"
-                aria-label="Toggle menu"
-              >
-                {menuOpen ? '✕' : '☰'}
-              </button>
-              <h1 className="text-xl md:text-2xl font-bold">
-                {currentPage === 'home' && 'Ethan Akiyama'}
-                {currentPage === 'projects' && 'Projects'}
-                {currentPage === 'resume' && 'Resume'}
-                {currentPage === 'project-detail' && 'Project Detail Page'}
-              </h1>
-              <div className="w-10"></div>
+            <header className="bg-gray-300 px-6 py-4 flex items-center justify-between">
+              <h1 className="text-xl md:text-2xl font-bold">Ethan Akiyama</h1>
+              
+              <nav className="flex items-center gap-6">
+                <button
+                  onClick={() => navigateTo('home')}
+                  className={`font-medium hover:text-gray-600 transition-colors ${currentPage === 'home' ? 'text-gray-900' : 'text-gray-700'}`}
+                >
+                  Home
+                </button>
+                <button
+                  onClick={() => navigateTo('projects')}
+                  className={`font-medium hover:text-gray-600 transition-colors ${currentPage === 'projects' ? 'text-gray-900' : 'text-gray-700'}`}
+                >
+                  Projects
+                </button>
+                <button
+                  onClick={() => navigateTo('resume')}
+                  className={`font-medium hover:text-gray-600 transition-colors ${currentPage === 'resume' ? 'text-gray-900' : 'text-gray-700'}`}
+                >
+                  Resume
+                </button>
+                <a
+                  href="Ethan_Akiyama_Resume.pdf"
+                  download
+                  className="bg-gray-700 hover:bg-gray-800 text-white font-medium py-2 px-4 rounded-lg transition-all"
+                >
+                  Download Resume
+                </a>
+              </nav>
             </header>
 
             <div className="flex flex-1 relative overflow-hidden">
-              {menuOpen && (
-                <div 
-                  className="fixed inset-0 bg-black bg-opacity-50 z-40"
-                  onClick={toggleMenu}
-                ></div>
-              )}
-
-              {menuOpen && (
-                <aside className="fixed left-0 top-0 bottom-0 w-48 bg-gray-400 p-4 z-50 shadow-xl">
-                  <button
-                    onClick={toggleMenu}
-                    className="p-2 hover:bg-gray-500 transition-all rounded-lg mb-4"
-                    aria-label="Close menu"
-                  >
-                    ✕
-                  </button>
-                  <Navigation />
-                </aside>
-              )}
-
               <main className="flex-1 flex flex-col overflow-auto">
                 {currentPage === 'home' && <HomePage />}
                 {currentPage === 'projects' && <ProjectsPage />}
