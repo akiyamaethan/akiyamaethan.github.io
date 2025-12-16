@@ -235,9 +235,7 @@
     const closeBtn = document.getElementById('closeBtn');
 
     function openGame(name, url) {
-      gameFrame.src = url;
-      arcadeWrapper.classList.add('expanded');
-      closeBtn.classList.add('visible');
+      window.open(url, '_blank');
     }
 
     function closeGame() {
