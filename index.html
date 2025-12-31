@@ -208,7 +208,7 @@
 </head>
 <body>
   <div class="arcade-wrapper" id="arcadeWrapper">
-    <img src="WorkingBackground.png" alt="Arcade Cabinet" class="arcade-bg">
+    <img src="FinalArcadeBackground-Default.png" alt="Arcade Cabinet" class="arcade-bg" id="arcadeBg">
 
     <div class="screen-area" id="screenArea">
       <div class="game-thumb" onclick="openGame('barry-the-last-bass', 'https://play.unity.com/en/games/643b8606-dcc1-4bbc-af1d-677ae6e740d9/barry-the-last-bass')">
@@ -247,9 +247,48 @@
       }, 400);
     }
 
-    // Close on Escape key
+    // Preload images
+    const bgImages = {
+      default: 'FinalArcadeBackground-Default.png',
+      up: 'FinalArcadeBackground-JoystickUp.png',
+      down: 'FinalArcadeBackground-JoystickDown.png',
+      left: 'FinalArcadeBackground-JoystickLeft.png',
+      right: 'FinalArcadeBackground-JoystickRight.png'
+    };
+
+    Object.values(bgImages).forEach(src => {
+      const img = new Image();
+      img.src = src;
+    });
+
+    const arcadeBg = document.getElementById('arcadeBg');
+    const activeKeys = new Set();
+
+    function updateBackground() {
+      // Priority: Up, Down, Left, Right
+      if (activeKeys.has('ArrowUp')) arcadeBg.src = bgImages.up;
+      else if (activeKeys.has('ArrowDown')) arcadeBg.src = bgImages.down;
+      else if (activeKeys.has('ArrowLeft')) arcadeBg.src = bgImages.left;
+      else if (activeKeys.has('ArrowRight')) arcadeBg.src = bgImages.right;
+      else arcadeBg.src = bgImages.default;
+    }
+
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeGame();
+      
+      if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+        if (!activeKeys.has(e.key)) {
+          activeKeys.add(e.key);
+          updateBackground();
+        }
+      }
+    });
+
+    document.addEventListener('keyup', (e) => {
+      if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+        activeKeys.delete(e.key);
+        updateBackground();
+      }
     });
   </script>
 </body>
