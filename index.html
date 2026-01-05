@@ -24,7 +24,7 @@
       font-family: 'Press Start 2P', cursive;
     }
 
-    /* Arcade cabinet wrapper - handles the expand animation */
+    /* Arcade cabinet wrapper */
     .arcade-wrapper {
       position: fixed;
       top: 0;
@@ -34,13 +34,6 @@
       transition: all 0.4s ease-in-out;
     }
 
-    .arcade-wrapper.expanded {
-      height: 100vh;
-      width: 100vw;
-      left: 0;
-      transform: none;
-    }
-
     .arcade-bg {
       height: 100%;
       width: auto;
@@ -48,13 +41,7 @@
       transition: all 0.4s ease-in-out;
     }
 
-    .arcade-wrapper.expanded .arcade-bg {
-      height: 100%;
-      width: 100%;
-      object-fit: cover;
-    }
-
-    /* Screen area - contains the game grid or expanded game */
+    /* Screen area - contains the game grid */
     .screen-area {
       position: absolute;
       top: 29%;
@@ -66,15 +53,6 @@
       gap: 10px;
       padding: 10px;
       transition: all 0.4s ease-in-out;
-    }
-
-    .arcade-wrapper.expanded .screen-area {
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      padding: 0;
-      display: block;
     }
 
     /* Game thumbnail buttons */
@@ -105,68 +83,6 @@
       text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
     }
 
-    .arcade-wrapper.expanded .game-thumb {
-      display: none;
-    }
-
-    /* Expanded game iframe */
-    .game-frame {
-      display: none;
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
-    .arcade-wrapper.expanded .game-frame {
-      display: block;
-    }
-
-    /* Close button */
-    .close-btn {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      width: 50px;
-      height: 50px;
-      background: #c1121f;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      z-index: 1000;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 15px rgba(193, 18, 31, 0.5);
-      transition: all 0.2s ease;
-    }
-
-    .close-btn:hover {
-      background: #a00f1a;
-      transform: scale(1.1);
-    }
-
-    .close-btn.visible {
-      display: flex;
-    }
-
-    .close-btn::before,
-    .close-btn::after {
-      content: '';
-      position: absolute;
-      width: 24px;
-      height: 4px;
-      background: white;
-      border-radius: 2px;
-    }
-
-    .close-btn::before {
-      transform: rotate(45deg);
-    }
-
-    .close-btn::after {
-      transform: rotate(-45deg);
-    }
-
     /* Mobile responsive */
     @media (max-width: 768px) {
       .arcade-wrapper {
@@ -190,19 +106,6 @@
       .game-title {
         font-size: 8px;
       }
-
-      .close-btn {
-        top: 10px;
-        right: 10px;
-        width: 40px;
-        height: 40px;
-      }
-
-      .close-btn::before,
-      .close-btn::after {
-        width: 20px;
-        height: 3px;
-      }
     }
   </style>
 </head>
@@ -212,7 +115,7 @@
 
     <div class="screen-area" id="screenArea">
       <div class="game-thumb" onclick="openGame('barry-the-last-bass', 'https://play.unity.com/en/games/643b8606-dcc1-4bbc-af1d-677ae6e740d9/barry-the-last-bass')">
-        <span class="game-title">barry-the-last-bass</span>
+        <span class="game-title">Barry: The Last Bass</span>
       </div>
       <div class="game-thumb" onclick="openGame('Game 2', 'https://play.unity.com/en/games/YOUR_GAME_ID_2')">
         <span class="game-title">GAME 2</span>
@@ -223,28 +126,12 @@
       <div class="game-thumb" onclick="openGame('Game 4', 'https://play.unity.com/en/games/YOUR_GAME_ID_4')">
         <span class="game-title">GAME 4</span>
       </div>
-      <iframe class="game-frame" id="gameFrame" src="" allowfullscreen></iframe>
     </div>
   </div>
 
-  <button class="close-btn" id="closeBtn" onclick="closeGame()"></button>
-
   <script>
-    const arcadeWrapper = document.getElementById('arcadeWrapper');
-    const gameFrame = document.getElementById('gameFrame');
-    const closeBtn = document.getElementById('closeBtn');
-
     function openGame(name, url) {
       window.open(url, '_blank');
-    }
-
-    function closeGame() {
-      arcadeWrapper.classList.remove('expanded');
-      closeBtn.classList.remove('visible');
-      // Delay clearing the iframe src until after animation completes
-      setTimeout(() => {
-        gameFrame.src = '';
-      }, 400);
     }
 
     // Preload images
@@ -274,8 +161,6 @@
     }
 
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeGame();
-      
       if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
         if (!activeKeys.has(e.key)) {
           activeKeys.add(e.key);

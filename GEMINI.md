@@ -34,4 +34,4 @@ Since this is a static website, you do not need a build process.
 *   **Assets:** When modifying the arcade cabinet graphics, edit the `.aseprite` files and export them to PNG. Ensure the screen area coordinates in the CSS (`.screen-area`) match any changes to the background image.
 
 ## Current Behavior vs. Code Structure
-The HTML structure includes an `iframe` and CSS classes (`.expanded`) that suggest functionality for playing games directly within the page/cabinet. However, the current JavaScript implementation (`openGame` function) opens links in a new tab. Future development could enable the inline iframe functionality.
+The JavaScript implementation (`openGame` function) opens links in a new tab. Previous experimental functionality for inline iframes has been removed to streamline the experience.
