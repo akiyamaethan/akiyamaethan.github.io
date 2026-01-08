@@ -15,15 +15,23 @@
 
     <div class="screen-area" id="screenArea">
       <div class="game-thumb" data-index="0" onclick="openGame('barry-the-last-bass', 'https://play.unity.com/en/games/643b8606-dcc1-4bbc-af1d-677ae6e740d9/barry-the-last-bass')">
+        <img src="Game1Thumb.png" alt="Barry: The Last Bass" class="thumb-img">
+        <video src="Game1Vid.mp4" class="thumb-vid" loop muted playsinline></video>
         <span class="game-title">Barry: The Last Bass</span>
       </div>
       <div class="game-thumb" data-index="1" onclick="openGame('fugue', 'https://akiyamaethan.github.io/Fugue/')">
+        <img src="Game2Thumb.png" alt="Fugue" class="thumb-img">
+        <video src="Game2Vid.mp4" class="thumb-vid" loop muted playsinline></video>
         <span class="game-title">Fugue</span>
       </div>
       <div class="game-thumb" data-index="2" onclick="openGame('below', 'https://play.unity.com/en/games/d62b36cf-167f-485b-a6a0-d9e9b5c29700/prototype-4-web-build')">
+        <img src="Game3Thumb.png" alt="Below" class="thumb-img">
+        <video src="Game3Vid.mp4" class="thumb-vid" loop muted playsinline></video>
         <span class="game-title">Below</span>
       </div>
       <div class="game-thumb" data-index="3" onclick="openGame('nozama-driver', 'https://gd.games/games/4a01f6d8-7d53-426d-9319-3f3582d3dde1')">
+        <img src="Game4Thumb.png" alt="Nozama Driver" class="thumb-img">
+        <video src="Game4Vid.mp4" class="thumb-vid" loop muted playsinline></video>
         <span class="game-title">Nozama Driver</span>
       </div>
     </div>
@@ -59,16 +67,29 @@
     // 2 3
 
     function setActiveThumbnail(index) {
-      thumbnails.forEach(thumb => thumb.classList.remove('active'));
+      thumbnails.forEach(thumb => {
+        thumb.classList.remove('active');
+        const vid = thumb.querySelector('video');
+        if (vid) {
+          vid.pause();
+          vid.currentTime = 0;
+        }
+      });
+
       const target = document.querySelector(`.game-thumb[data-index="${index}"]`);
       if (target) {
         target.classList.add('active');
         currentIndex = index;
+        const vid = target.querySelector('video');
+        if (vid) {
+          vid.play().catch(e => console.log('Autoplay prevented:', e));
+        }
       }
     }
 
     // Initialize first game as active
-    setActiveThumbnail(0);
+    // Use a slight timeout to ensure DOM is ready and prevent initial race conditions if any
+    setTimeout(() => setActiveThumbnail(0), 100);
 
     function updateBackground(overrideSrc) {
       if (overrideSrc) {
