@@ -48,7 +48,8 @@
       up: 'FinalArcadeBackground-JoystickUp.png',
       down: 'FinalArcadeBackground-JoystickDown.png',
       left: 'FinalArcadeBackground-JoystickLeft.png',
-      right: 'FinalArcadeBackground-JoystickRight.png'
+      right: 'FinalArcadeBackground-JoystickRight.png',
+      button: 'FinalArcadeBackground-ButtonPress.png'
     };
 
     Object.values(bgImages).forEach(src => {
@@ -116,6 +117,14 @@
       updateBackground(); // Reset to default or current key state
     }
 
+    async function playButtonAnimation() {
+      isAnimating = true;
+      updateBackground(bgImages.button);
+      await new Promise(resolve => setTimeout(resolve, 150));
+      isAnimating = false;
+      updateBackground();
+    }
+
     function getPath(startIdx, endIdx) {
       const startRow = Math.floor(startIdx / 2);
       const startCol = startIdx % 2;
@@ -148,8 +157,21 @@
       });
     });
 
+    // Global Click Interaction
+    document.addEventListener('click', () => {
+      playButtonAnimation();
+    });
+
     // Keyboard Interaction
     document.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const activeThumb = document.querySelector(`.game-thumb[data-index="${currentIndex}"]`);
+        if (activeThumb) {
+          activeThumb.click();
+        }
+        return;
+      }
+
       if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
         if (!activeKeys.has(e.key)) {
           activeKeys.add(e.key);
