@@ -49,7 +49,7 @@ body {
 .game-thumb {
   position: relative;
   background: #0a1628;
-  border-radius: 6px;
+  border-radius: 1px;
   cursor: pointer;
   overflow: hidden;
   transition: all 0.3s ease;
